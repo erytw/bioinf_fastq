@@ -2,8 +2,7 @@ import sys
 
 
 def read_fastq(path):
-    # Одно прочтение занимает четыре строки.
-    with open(path) as file:
+    with open(path+"/") as file:
         while True:
             name = file.readline().rstrip("\r\n")
             if not name:
@@ -15,7 +14,7 @@ def read_fastq(path):
 
 
 def trim(sequence, quality, window=5, threshold=30):
-    # Правило скользящего окна из Trimmomatic.
+    # Правило скользящего окна из Trimmomatic
     scores = [ord(char) - 33 for char in quality]
     for i in range(len(sequence)):
         if sequence[i] == "N":
@@ -34,7 +33,7 @@ def trim(sequence, quality, window=5, threshold=30):
             end = i + window
             break
 
-    # Убираем плохие основания с полученного конца.
+    # Убираем плохие основания с конца.
     while end > 1 and scores[end - 1] < threshold:
         end -= 1
     return sequence[:end], quality[:end]
